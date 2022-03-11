@@ -116,7 +116,7 @@ const VotePage = () => {
     [reaction, updateVote, vote]
   );
 
-  if (!healthcheck || current === undefined) return null;
+  if (!healthcheck || current === undefined) return <Layout>🚀</Layout>;
 
   const title = current >= 0 ? `${QUESTIONS[current].title}` : "Ready?";
   const subtitle =
@@ -124,7 +124,6 @@ const VotePage = () => {
       ? QUESTIONS[current].subtitle
       : "The champion will start the healthcheck shortly! Meanwhile, practice your emoji game!";
 
-  console.log(VOTE_COLOURS[vote]);
   return (
     <Layout title={healthcheck.label} stretch>
       <Item>
