@@ -198,7 +198,7 @@ const AdminPage = () => {
     }
   }, [healthcheck, readyForReview]);
 
-  if (!healthcheck) return null;
+  if (!healthcheck || !user) return <Layout>🚀</Layout>;
 
   const canReview = !healthcheck.meta.locked;
   const canGoNext =
