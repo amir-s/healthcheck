@@ -19,7 +19,7 @@ const Container = tw.div`
 const Content = tw.div<{ $full?: boolean; $stretch?: boolean }>`
   flex flex-col flex-1
   md:w-full md:h-full md:rounded-xl items-center
-  p-8
+  p-3 md:p-8
   shadow-xl
   bg-fillPrimary
   text-white
@@ -43,6 +43,10 @@ const Avatar = tw.img`
   rounded-full
   object-cover
   cursor-pointer
+`;
+
+const LoginButton = tw(Button)`
+  mt-10
 `;
 
 const setupInitialDB = async (user: User) => {
@@ -97,12 +101,11 @@ const Layout = ({ children, title, full, stretch }: Props) => {
       <Content $full={full} $stretch={stretch}>
         {!user ? (
           <>
-            <p className="text-center">
-              Logged-in users have have a higher chance of success.
-            </p>
-            <Button className="mt-5" $emph onClick={toggleSignIn}>
+            <p className="text-center">Login for a 100% chance of getting a</p>
+            <h1>🍪</h1>
+            <LoginButton $emph onClick={toggleSignIn}>
               Login with Github
-            </Button>
+            </LoginButton>
           </>
         ) : (
           children

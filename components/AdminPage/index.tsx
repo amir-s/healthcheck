@@ -158,7 +158,7 @@ const AdminPage = () => {
     update(ref(database), updates);
   };
 
-  const startHealtcheck = () => {
+  const startHealthcheck = () => {
     if (!healthcheck) return;
     const updates = {} as any;
     updates[`/healthchecks/${router.query.hcid}/meta/current`] = 0;
@@ -249,8 +249,8 @@ const AdminPage = () => {
         ))}
       </ParticipantsContainer>
       {participants.length > 0 && healthcheck.meta.current < 0 && (
-        <Button $emph onClick={startHealtcheck}>
-          Start the healtcheck
+        <Button $emph onClick={startHealthcheck}>
+          Start the healthcheck
         </Button>
       )}
       {healthcheck.meta.current >= 0 &&

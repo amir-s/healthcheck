@@ -8,6 +8,7 @@ export const Item = tw.div`
 export const ItemTitle = tw.div`
   font-bold
   text-5xl
+  overflow-hidden
   mb-2
   text-left
   opacity-95

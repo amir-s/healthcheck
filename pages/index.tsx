@@ -7,6 +7,11 @@ import Layout from "../components/Layout";
 import { Button } from "../components/Button";
 import { useAppContext } from "../components/AppState/appState";
 import { TextInput, useTextInput } from "components/TextInput";
+import tw from "tailwind-styled-components";
+
+const CreateButton = tw(Button)`
+  mt-7
+`;
 
 const Home: NextPage = () => {
   const {
@@ -48,14 +53,13 @@ const Home: NextPage = () => {
       {user && <p className="p-5">👋 {name}</p>}
 
       <TextInput type={"text"} {...textInput} placeholder="title ..." />
-      <Button
+      <CreateButton
         $emph
         $disabled={creating}
-        className="mt-4"
         onClick={() => createHealthcheck(textInput.value)}
       >
         Create a healthcheck
-      </Button>
+      </CreateButton>
     </Layout>
   );
 };
