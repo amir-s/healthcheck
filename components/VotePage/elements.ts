@@ -21,7 +21,7 @@ export const ItemSubtitle = tw.div`
 
 export const VoteContainer = tw.div`
   flex
-  h-24
+  h-20
   w-full
   justify-between
   mb-2
@@ -60,7 +60,7 @@ export const Reaction = tw.div`
   flex-1
   flex
   align-center
-  py-5
+  py-4
   cursor-pointer
   rounded-full
   items-center

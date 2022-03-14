@@ -100,7 +100,7 @@ const Layout = ({ children, title, full, stretch }: Props) => {
             <p className="text-center">
               Logged-in users have have a higher chance of success.
             </p>
-            <Button className="mt-10" $emph onClick={toggleSignIn}>
+            <Button className="mt-5" $emph onClick={toggleSignIn}>
               Login with Github
             </Button>
           </>

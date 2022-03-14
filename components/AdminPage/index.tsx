@@ -22,7 +22,7 @@ import {
   VoteIndicatorPlaceholder,
   QRCodeContainer,
   ParticipantsContainer,
-  Avatar,
+  AvatarImage,
   StickyContainer,
   Gear,
   Close,
@@ -51,6 +51,19 @@ interface QuestionProps {
 const DisplayName = (name: string) => {
   if (name.indexOf("@")) return name.split("@")[0];
   return name;
+};
+
+const Avatar = ({ src, reaction }: { src: string; reaction: string }) => {
+  return (
+    <div className="relative float-right">
+      <AvatarImage src={src}></AvatarImage>
+      {reaction && (
+        <div className="absolute bottom-0 right-0 rounded-full w-6 h-6">
+          {reaction}
+        </div>
+      )}
+    </div>
+  );
 };
 
 const Question = ({ question, index, healthcheck }: QuestionProps) => {
@@ -167,9 +180,13 @@ const AdminPage = () => {
 
   const participants = useMemo(() => {
     if (!healthcheck || !healthcheck.participants) return [];
-    return Object.values(healthcheck.participants).map(
-      (participant) => participant.user
-    );
+    return Object.values(healthcheck.participants).map((participant) => {
+      const reaction =
+        participant.votes &&
+        participant.votes[-1] &&
+        participant.votes[-1].reaction;
+      return { ...participant.user, reaction };
+    });
   }, [healthcheck]);
 
   const readyForReview = useMemo(() => {
@@ -202,8 +219,11 @@ const AdminPage = () => {
 
   const canReview = !healthcheck.meta.locked;
   const canGoNext =
-    healthcheck.meta.current + 1 < QUESTIONS.length && healthcheck.meta.locked;
+    healthcheck.meta.current >= 0 &&
+    healthcheck.meta.current + 1 < QUESTIONS.length &&
+    healthcheck.meta.locked;
 
+  const showSticky = canReview || canGoNext;
   return (
     <Layout title={healthcheck.meta.label}>
       <h1>👋</h1>
@@ -221,7 +241,11 @@ const AdminPage = () => {
       </div>
       <ParticipantsContainer>
         {participants.map((participant, index) => (
-          <Avatar key={index} src={participant.photoURL} />
+          <Avatar
+            key={index}
+            src={participant.photoURL}
+            reaction={participant.reaction}
+          />
         ))}
       </ParticipantsContainer>
       {participants.length > 0 && healthcheck.meta.current < 0 && (
@@ -238,22 +262,24 @@ const AdminPage = () => {
             healthcheck={healthcheck}
           ></Question>
         ))}
-      <StickyContainer $active={active}>
-        {active ? (
-          <>
-            {canReview && (
-              <Button onClick={revealAnswers}>
-                Review &quot;{QUESTIONS[healthcheck.meta.current].title}
-                &quot;?
-              </Button>
-            )}
-            {canGoNext && <Button onClick={goToNext}>Next question</Button>}
-            <Close onClick={() => setActive((i) => !i)}>close</Close>
-          </>
-        ) : (
-          <Gear onClick={() => setActive((i) => !i)}>⚙️</Gear>
-        )}
-      </StickyContainer>
+      {showSticky && (
+        <StickyContainer $active={active}>
+          {active ? (
+            <>
+              {canReview && (
+                <Button onClick={revealAnswers}>
+                  Review &quot;{QUESTIONS[healthcheck.meta.current].title}
+                  &quot;?
+                </Button>
+              )}
+              {canGoNext && <Button onClick={goToNext}>Next question</Button>}
+              <Close onClick={() => setActive((i) => !i)}>close</Close>
+            </>
+          ) : (
+            <Gear onClick={() => setActive((i) => !i)}>⚙️</Gear>
+          )}
+        </StickyContainer>
+      )}
     </Layout>
   );
 };

@@ -88,7 +88,7 @@ export const ParticipantsContainer = tw.div`
   text-center
 `;
 
-export const Avatar = tw.img`
+export const AvatarImage = tw.img`
   inline
   h-16 w-16
   m-2

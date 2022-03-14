@@ -7,7 +7,7 @@ const QUESTIONS = [
   {
     title: "Alignment",
     subtitle:
-      "Is the team in agreement and aligned to the same vision and goals? Is the vision and goals aligned with Shopify?",
+      "Is the team in agreement and aligned to the same vision and goals? Is the vision and goals aligned with the company?",
   },
   {
     title: "Progress",

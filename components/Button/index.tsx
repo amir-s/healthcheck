@@ -2,6 +2,7 @@ import tw from "tailwind-styled-components";
 
 export const Button = tw.button<{
   $emph?: boolean;
+  $disabled?: boolean;
 }>`
     py-2 px-4
     rounded-full
@@ -20,4 +21,5 @@ export const Button = tw.button<{
     duration-200
     transform
     ${(p) => (p.$emph ? "mt-1 hover:-translate-y-1 focus:-translate-y-1" : "")}
+    ${(p) => (p.$disabled ? "opacity-70 cursor-progress" : "")}
 `;

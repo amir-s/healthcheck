@@ -1,7 +1,7 @@
 import { push, ref, set } from "firebase/database";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { database } from "../components/fire";
 import Layout from "../components/Layout";
 import { Button } from "../components/Button";
@@ -14,29 +14,29 @@ const Home: NextPage = () => {
   } = useAppContext();
   const router = useRouter();
 
+  const [creating, setCreating] = useState(false);
   const textInput = useTextInput("");
 
-  const createHealthcheck = (label: string) => {
-    if (!user) return;
-    const newHealthcheck = push(ref(database, "healthchecks"));
+  const createHealthcheck = useCallback(
+    async (label: string) => {
+      if (!user) return;
+      setCreating(true);
+      const newHealthcheck = push(ref(database, "healthchecks"));
 
-    set(newHealthcheck, {
-      meta: {
-        label,
-        current: -1,
-        locked: true,
-      },
-      adminId: user.uid,
-      participants: {},
-    });
+      await set(newHealthcheck, {
+        meta: {
+          label,
+          current: -1,
+          locked: true,
+        },
+        adminId: user.uid,
+        participants: {},
+      });
 
-    // set(
-    //   ref(database, `users/${user.uid}/healthchecks/${newHealthcheck.key}`),
-    //   true
-    // );
-
-    router.push(`/admin/${newHealthcheck.key}`);
-  };
+      router.push(`/admin/${newHealthcheck.key}`);
+    },
+    [router, user]
+  );
 
   const name = useMemo(() => {
     if (!user) return "";
@@ -50,7 +50,8 @@ const Home: NextPage = () => {
       <TextInput type={"text"} {...textInput} placeholder="title ..." />
       <Button
         $emph
-        className="mt-10"
+        $disabled={creating}
+        className="mt-4"
         onClick={() => createHealthcheck(textInput.value)}
       >
         Create a healthcheck
