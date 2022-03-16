@@ -136,12 +136,15 @@ const VotePage = () => {
       </SelectedVote>
       <BottomContainer>
         <ReactionContainer>
-          <Reaction onClick={() => updateReaction("❤️")}>❤️</Reaction>
-          <Reaction onClick={() => updateReaction("💔")}>💔</Reaction>
-          <Reaction onClick={() => updateReaction("👍")}>👍</Reaction>
-          <Reaction onClick={() => updateReaction("🚀")}>🚀</Reaction>
-          <Reaction onClick={() => updateReaction("🫒")}>🫒</Reaction>
-          <Reaction onClick={() => updateReaction("🚢")}>🚢</Reaction>
+          {["❤️", "💔", "👍", "🚀", "🫒", "🚢"].map((r, id) => (
+            <Reaction
+              $active={reaction === r}
+              key={id}
+              onClick={() => updateReaction(r)}
+            >
+              {r}
+            </Reaction>
+          ))}
         </ReactionContainer>
         <VoteContainer>
           <Vote onClick={handleVote} vote={1} type="first" />

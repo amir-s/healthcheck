@@ -57,19 +57,20 @@ export const ReactionContainer = tw.div`
   rounded-xl
 `;
 
-export const Reaction = tw.div`
+export const Reaction = tw.div<{ $active?: boolean }>`
   flex-1
   flex
   align-center
-  py-4
+  pt-4 pb-3
   cursor-pointer
-  rounded-full
   items-center
   justify-center
   transition-all
   duration-200
   transform
-  hover:-translate-y-1 focus:-translate-y-1
+  border-b-2 border-transparent
+  border-opacity-80
+  ${(p) => (p.$active ? "border-white" : "")}
 `;
 
 export const BottomContainer = tw.div`

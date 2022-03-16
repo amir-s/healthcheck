@@ -10,7 +10,7 @@ import { TextInput, useTextInput } from "components/TextInput";
 import tw from "tailwind-styled-components";
 
 const CreateButton = tw(Button)`
-  mt-7
+  mt-8
 `;
 
 const Home: NextPage = () => {
